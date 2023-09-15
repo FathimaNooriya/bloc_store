@@ -1,36 +1,56 @@
+import 'package:bloc_store/controller/bloc/bloc_bloc.dart';
+import 'package:bloc_store/controller/cart_bloc/bloc/cart_bloc_bloc.dart';
+import 'package:bloc_store/model/cart_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'home_page.dart';
+//int cartNumber = 15;
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    context.read<CartBlocBloc>().add(getCartEvent());
     return Scaffold(
-      appBar: AppBar(
-        title: Text("My Cart"),
-        toolbarHeight: 170,
-        flexibleSpace: AppBarContainer(),
-      ),
-      body: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (Context, index) {
-            return CartIteam();
-          }),
-    );
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 114, 190, 155),
+          title: Text("My Cart"),
+          scrolledUnderElevation: 5,
+          toolbarOpacity: .9,
+          //forceMaterialTransparency: false,
+          bottomOpacity: .5,
+          toolbarHeight: 75,
+        ),
+        body: BlocBuilder<CartBlocBloc, CartBlocState>(
+          builder: (context, state) {
+            return Center(
+                child: state.cartProducts.isEmpty
+                    ? CircularProgressIndicator()
+                    : ListView.builder(
+                        itemCount: state.cartProducts.length,
+                        itemBuilder: (Context, index) {
+                          final cartProduct = state.cartProducts[index];
+                          return CartIteam(
+                            cartProduct: cartProduct,
+                          );
+                        }));
+          },
+        ));
   }
 }
 
 class CartIteam extends StatelessWidget {
   const CartIteam({
+    required this.cartProduct,
     super.key,
   });
-
+  final CartModel cartProduct;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 190,
+      height: 200,
+      width: MediaQuery.of(context).size.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -39,14 +59,14 @@ class CartIteam extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IteamImage(),
-                  AboutIteam(),
+                  IteamImage(cartProduct: cartProduct),
+                  AboutIteam(cartProduct: cartProduct),
                 ],
               ),
               DeleteFromCart()
             ],
           ),
-          Quantity(),
+          Quantity(cartProduct: cartProduct),
           SizedBox(
             height: 5,
           )
@@ -75,23 +95,36 @@ class DeleteFromCart extends StatelessWidget {
 
 class IteamImage extends StatelessWidget {
   const IteamImage({
+    required this.cartProduct,
     super.key,
   });
+  final CartModel cartProduct;
 
   @override
   Widget build(BuildContext context) {
+    // cartNumber--;
     return SizedBox(
       height: 130,
+      width: 150,
       child: FittedBox(
-        fit: BoxFit.fitHeight,
+        fit: BoxFit.fill,
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-                fit: BoxFit.cover,
-                height: MediaQuery.of(context).size.height * .25,
-                "https://rukminim2.flixcart.com/image/850/1000/xif0q/shirt/z/g/d/xl-st2-vebnor-original-imagpw72vhqfczsp.jpeg?q=90"),
+            child: BlocConsumer<BlocBloc, BlocState>(
+              listener: (context, state) {
+                // cartNumber;
+              },
+              builder: (context, state) {
+                return Image.network(
+                  fit: BoxFit.fill,
+                  height: MediaQuery.of(context).size.height * .25,
+                  state.products[cartProduct.cartProduct![0].productId!].image!,
+                  // "https://rukminim2.flixcart.com/image/850/1000/xif0q/shirt/z/g/d/xl-st2-vebnor-original-imagpw72vhqfczsp.jpeg?q=90",
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -101,24 +134,38 @@ class IteamImage extends StatelessWidget {
 
 class AboutIteam extends StatelessWidget {
   const AboutIteam({
+    required this.cartProduct,
     super.key,
   });
-
+  final CartModel cartProduct;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Mens Wear",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          Text("Category"),
-          Text("Prize"),
-        ],
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * .50,
+        child: BlocBuilder<BlocBloc, BlocState>(
+          builder: (context, state) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  state.products[cartProduct.cartProduct![0].productId!].title!,
+                  overflow: TextOverflow.ellipsis,
+                  // "Mens Wear",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(cartProduct.date!),
+                Text(((state.products[cartProduct.cartProduct![0].productId!]
+                            .price!) *
+                        84)
+                    .ceil()
+                    .toString()),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -126,17 +173,15 @@ class AboutIteam extends StatelessWidget {
 
 class Quantity extends StatelessWidget {
   const Quantity({
+    required this.cartProduct,
     super.key,
   });
-
+  final CartModel cartProduct;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 2),
       child: Container(
-        // decoration: BoxDecoration(
-        // borderRadius: BorderRadius.circular(10),
-        // border: Border.all()),
         child: Row(children: [
           Card(
             shape: CircleBorder(
@@ -149,17 +194,13 @@ class Quantity extends StatelessWidget {
               child: Text("-"),
             ),
           ),
-          //ElevatedButton(onPressed: () {}, child: Text("-"),),
-          SizedBox(
-            height: 30,
-            width: 50,
-            child: ElevatedButton(
-              // style: ButtonStyle(backgroundColor:Color( Colors.white)),
-              onPressed: () {},
-              child: Text(
-                "2",
-                style: TextStyle(color: Colors.black),
-              ),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text(
+              cartProduct.cartProduct!.isEmpty
+                  ? '100'
+                  : cartProduct.cartProduct![0].quantity.toString(),
+              style: TextStyle(color: Colors.black),
             ),
           ),
           Card(
@@ -173,7 +214,6 @@ class Quantity extends StatelessWidget {
               child: Text("+"),
             ),
           ),
-          // ElevatedButton(onPressed: () {}, child: Text("+")),
         ]),
       ),
     );
