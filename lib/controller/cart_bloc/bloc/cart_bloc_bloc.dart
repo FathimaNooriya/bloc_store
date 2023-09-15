@@ -7,7 +7,7 @@ part 'cart_bloc_state.dart';
 
 class CartBlocBloc extends Bloc<CartBlocEvent, CartBlocState> {
   CartBlocBloc() : super(CartBlocInitial()) {
-    on<getCartEvent>((event, emit) async {
+    on<GetCartEvent>((event, emit) async {
       final cartProducts = await StoreApi().getCartItems();
       return emit(CartBlocState(cartProducts: cartProducts));
     });

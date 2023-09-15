@@ -1,7 +1,7 @@
 class CartModel {
   int? cartId;
   String? date;
-  List<product>? cartProduct;
+  List<Product>? cartProduct;
 
   CartModel(
       {required this.cartId, required this.cartProduct, required this.date});
@@ -9,12 +9,12 @@ class CartModel {
   CartModel.fromJson(Map<String, dynamic> json) {
     cartId = json["id"] as int;
     date = json["date"] as String;
-    cartProduct = <product>[];
+    cartProduct = <Product>[];
     if (json['products'] != null) {
       json['products'].forEach(
         (e) {
           cartProduct!.add(
-            product.fromJson(e as Map<String, dynamic>),
+            Product.fromJson(e as Map<String, dynamic>),
           );
         },
       );
@@ -27,13 +27,13 @@ class CartModel {
   }
 }
 
-class product {
+class Product {
   int? productId;
   int? quantity;
 
-  product({required this.productId, required this.quantity});
+  Product({required this.productId, required this.quantity});
 
-  product.fromJson(Map<String, dynamic> json) {
+  Product.fromJson(Map<String, dynamic> json) {
     productId = json["productId"] as int;
     quantity = json["quantity"] as int;
   }

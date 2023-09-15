@@ -8,7 +8,4 @@ class GetAllProductsEvent extends BlocEvent {}
 
 
 
-// @immutable
-// sealed class BlocEvent {
-//   const factory BlocEvent.getProducts() = GetProductsEvent;
-// }
+

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
-  // await StoreApi().getProducts();
   runApp(const MyApp());
 }
 
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
       child:
           //  BlocProvider(
           // create: (context) => BlocBloc(),
-
           // child:
           MaterialApp(
         debugShowCheckedModeBanner: false,

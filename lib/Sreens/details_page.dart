@@ -58,7 +58,7 @@ class DifferentImages extends StatelessWidget {
             child: Container(
               height: 75,
               width: 55,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: CupertinoColors.activeOrange,
                 // border: Border.all(color: Colors.black),
               ),
@@ -90,21 +90,21 @@ class DetailsOfIteam extends StatelessWidget {
         children: [
           Text(
             product.title!,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           Text(product.category!.toUpperCase()),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
             " ₹ ${((product.price!) * 84).ceil()}",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(product.description!),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -113,19 +113,19 @@ class DetailsOfIteam extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 114, 190, 155),
+                      backgroundColor: const Color.fromARGB(255, 114, 190, 155),
                       shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(5)) // Background color
                       ),
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     "Buy Now",
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -136,7 +136,7 @@ class DetailsOfIteam extends StatelessWidget {
                                 BorderRadius.circular(5)) // Background color
                         ),
                     onPressed: () {},
-                    child: Text(
+                    child: const Text(
                       "Add to Cart",
                       style: TextStyle(color: Colors.black),
                     )),

@@ -11,14 +11,13 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<CartBlocBloc>().add(getCartEvent());
+    context.read<CartBlocBloc>().add(GetCartEvent());
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 114, 190, 155),
-          title: Text("My Cart"),
+          backgroundColor: const Color.fromARGB(255, 114, 190, 155),
+          title: const Text("My Cart"),
           scrolledUnderElevation: 5,
           toolbarOpacity: .9,
-          //forceMaterialTransparency: false,
           bottomOpacity: .5,
           toolbarHeight: 75,
         ),
@@ -26,7 +25,7 @@ class CartPage extends StatelessWidget {
           builder: (context, state) {
             return Center(
                 child: state.cartProducts.isEmpty
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : ListView.builder(
                         itemCount: state.cartProducts.length,
                         itemBuilder: (Context, index) {
@@ -63,11 +62,11 @@ class CartIteam extends StatelessWidget {
                   AboutIteam(cartProduct: cartProduct),
                 ],
               ),
-              DeleteFromCart()
+              const DeleteFromCart()
             ],
           ),
           Quantity(cartProduct: cartProduct),
-          SizedBox(
+          const SizedBox(
             height: 5,
           )
         ],
@@ -87,7 +86,7 @@ class DeleteFromCart extends StatelessWidget {
       alignment: Alignment.topRight,
       child: IconButton(
         onPressed: () {},
-        icon: Icon(Icons.delete),
+        icon: const Icon(Icons.delete),
       ),
     );
   }
@@ -154,7 +153,7 @@ class AboutIteam extends StatelessWidget {
                   state.products[cartProduct.cartProduct![0].productId!].title!,
                   overflow: TextOverflow.ellipsis,
                   // "Mens Wear",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(cartProduct.date!),
                 Text(((state.products[cartProduct.cartProduct![0].productId!]
@@ -181,41 +180,39 @@ class Quantity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 2),
-      child: Container(
-        child: Row(children: [
-          Card(
-            shape: CircleBorder(
-              eccentricity: 0,
-            ),
-            color: Colors.white,
-            elevation: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(9.0),
-              child: Text("-"),
-            ),
+      child: Row(children: [
+        const Card(
+          shape: CircleBorder(
+            eccentricity: 0,
           ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              cartProduct.cartProduct!.isEmpty
-                  ? '100'
-                  : cartProduct.cartProduct![0].quantity.toString(),
-              style: TextStyle(color: Colors.black),
-            ),
+          color: Colors.white,
+          elevation: 5,
+          child: Padding(
+            padding: EdgeInsets.all(9.0),
+            child: Text("-"),
           ),
-          Card(
-            shape: CircleBorder(
-              eccentricity: 0,
-            ),
-            color: Colors.white,
-            elevation: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(7.0),
-              child: Text("+"),
-            ),
+        ),
+        ElevatedButton(
+          onPressed: () {},
+          child: Text(
+            cartProduct.cartProduct!.isEmpty
+                ? '100'
+                : cartProduct.cartProduct![0].quantity.toString(),
+            style: const TextStyle(color: Colors.black),
           ),
-        ]),
-      ),
+        ),
+        const Card(
+          shape: CircleBorder(
+            eccentricity: 0,
+          ),
+          color: Colors.white,
+          elevation: 5,
+          child: Padding(
+            padding: EdgeInsets.all(7.0),
+            child: Text("+"),
+          ),
+        ),
+      ]),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:bloc_store/controller/bloc/bloc_bloc.dart';
 import 'package:bloc_store/model/store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../api_integration/api_functions.dart';
 import 'cart_page.dart';
 
@@ -13,26 +12,23 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<BlocBloc>().add(GetAllProductsEvent());
-    // List<StoreModel> productList = ssss.getProducts() as List<StoreModel>;
     return Scaffold(
-      //  extendBodyBehindAppBar: true,
       extendBody: false,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 114, 190, 155),
+        backgroundColor: const Color.fromARGB(255, 114, 190, 155),
         actions: [
           IconButton(
             onPressed: () async {
-              //   await StoreApi().getCartItems();
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => CartPage()));
+                  .push(MaterialPageRoute(builder: (context) => const CartPage()));
             },
-            icon: Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart),
           ),
           IconButton(
               onPressed: () {
-                StoreApi().postProducts();
+                StoreApi().postProducts(context);
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ],
         scrolledUnderElevation: 5,
         toolbarOpacity: .9,
@@ -40,18 +36,18 @@ class HomePage extends StatelessWidget {
         bottomOpacity: .5,
         toolbarHeight: 75,
         //flexibleSpace: AppBarContainer(),
-        title: Text("My Store"),
+        title: const Text("My Store"),
       ),
       body: BlocBuilder<BlocBloc, BlocState>(
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.only(top: 10),
             child: state.products.isEmpty
-                ? Center(child: const CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : GridView.builder(
                     itemCount: state.products.length,
                     //  shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 1 / 1.8, crossAxisCount: 2),
                     // semanticChildCount: 3,
                     itemBuilder: (context, index) {
@@ -96,7 +92,7 @@ class ProductWithFavorate extends StatelessWidget {
     return Stack(
       children: [
         oneIteam(product: product),
-        Align(
+        const Align(
           alignment: Alignment(.93, -.93),
           child: Icon(Icons.favorite),
         ),
@@ -124,7 +120,7 @@ class oneIteam extends StatelessWidget {
           height: MediaQuery.of(context).size.height * .5,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Color.fromARGB(255, 233, 226, 226),
+                color: const Color.fromARGB(255, 233, 226, 226),
               ),
               borderRadius: BorderRadius.circular(5)),
           // borderOnForeground: true,
@@ -140,31 +136,25 @@ class oneIteam extends StatelessWidget {
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * .3,
                   child: ClipRRect(
-                    //   borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                        fit: BoxFit.contain,
-                        // height: MediaQuery.of(context).size.height * .20,
-                        product.image!),
+                    child: Image.network(fit: BoxFit.contain, product.image!),
                   ),
                 ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .06,
-                //  width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       product.title!,
                       overflow: TextOverflow.ellipsis,
-                      //textScaleFactor: 1,
                       softWrap: false,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                       ),
                     ),
                     Text("₹ ${(product.price! * 84).ceil().toString()}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 12, fontWeight: FontWeight.bold)),
                   ],
                 ),
